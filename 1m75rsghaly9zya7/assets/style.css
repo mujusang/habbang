@@ -162,6 +162,12 @@ article > h1{
 p{margin:.9rem 0}
 strong{font-weight:700;color:var(--ink)}
 em{font-style:normal;background:linear-gradient(transparent 62%,var(--accent-wash) 62%);padding:0 .1em}
+article > p.key{
+  margin:1.15rem 0;padding:.1rem 0 .1rem .85rem;
+  border-left:3px solid var(--accent);
+  color:var(--ink);font-size:1.01em;line-height:1.72;
+}
+article > p.key strong{font-weight:700}
 p.aside{
   margin:1.3rem 0;padding:.8rem 1rem .8rem 1.05rem;
   background:var(--paper-2);border-left:5px solid var(--accent-soft);border-radius:0 10px 10px 0;

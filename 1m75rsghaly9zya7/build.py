@@ -66,6 +66,35 @@ def read_manifest() -> list[tuple[str, str | None]]:
 
 
 # ── 마크다운 → HTML ──────────────────────────────────────
+LIST_START = re.compile(r"^(\- |\* |\+ |\d+\. )")
+
+
+def normalize_lists(text: str) -> str:
+    """문단 바로 뒤에 줄바꿈만 두고 시작한 목록은 빈 줄을 넣어 목록으로 살린다."""
+    out: list[str] = []
+    in_fence = False
+    prev = ""
+    for line in text.splitlines():
+        s = line.strip()
+        if s.startswith("```"):
+            in_fence = not in_fence
+            out.append(line)
+            prev = line
+            continue
+        if (
+            not in_fence
+            and LIST_START.match(s)
+            and prev.strip()
+            and not LIST_START.match(prev.strip())
+            and not prev.lstrip().startswith(("#", ">", "|"))
+            and not prev.strip().startswith("---")
+        ):
+            out.append("")
+        out.append(line)
+        prev = line
+    return "\n".join(out)
+
+
 def split_title(text: str) -> tuple[str, str]:
     """첫 '# 제목' 줄을 떼어 낸다."""
     lines = text.splitlines()
@@ -111,6 +140,7 @@ def renumber_ids(html_text: str) -> str:
 def build_doc(path: Path) -> dict:
     raw = path.read_text(encoding="utf-8")
     title, body_md = split_title(raw)
+    body_md = normalize_lists(body_md)
     has_many_h1 = len(re.findall(r"^# ", body_md, re.M)) > 0
 
     md = markdown.Markdown(extensions=MD_EXT, extension_configs=MD_EXT_CFG)
@@ -130,6 +160,9 @@ def build_doc(path: Path) -> dict:
 
     # 표 감싸기
     body = re.sub(r"<table>(.*?)</table>", r'<div class="tablewrap"><table>\1</table></div>', body, flags=re.S)
+
+    # 한 문단짜리 강조는 「핵심 한 줄」로 표시
+    body = re.sub(r"<p><strong>(.*?)</strong></p>", r'<p class="key"><strong>\1</strong></p>', body, flags=re.S)
 
     # 한 문단짜리 강조는 안내 상자로
     body = re.sub(r"<p>\s*<em>(.*?)</em>\s*</p>", r'<p class="aside">\1</p>', body, flags=re.S)
