@@ -19,6 +19,7 @@ import html
 import os
 import re
 import sys
+import hashlib
 from pathlib import Path
 
 try:
@@ -270,7 +271,7 @@ PAGE = """<!doctype html>
 <meta name="referrer" content="no-referrer">
 <meta name="color-scheme" content="light dark">
 <title>{title} · {site}</title>
-<link rel="stylesheet" href="assets/style.css">
+<link rel="stylesheet" href="assets/style.css?v={cssv}">
 </head>
 <body>
 <div class="progress" id="progress"></div>
@@ -291,10 +292,18 @@ PAGE = """<!doctype html>
 </div>
 <div id="backdrop"></div>
 <button id="totop" aria-label="맨 위로">↑</button>
-<script src="assets/app.js"></script>
+<script src="assets/app.js?v={jsv}"></script>
 </body>
 </html>
 """
+
+
+def asset_version(name: str) -> str:
+    """css/js 를 고치면 브라우저가 새 파일을 받도록 내용 해시를 붙인다."""
+    p = HERE / "assets" / name
+    if not p.exists():
+        return "1"
+    return hashlib.md5(p.read_bytes()).hexdigest()[:8]
 
 
 def main() -> None:
@@ -320,6 +329,8 @@ def main() -> None:
             sidebar=sidebar(docs, i),
             body=d["body"],
             pager=pager(docs, i),
+            cssv=asset_version("style.css"),
+            jsv=asset_version("app.js"),
         )
         out = HERE / doc_href(i)
         out.write_text(page, encoding="utf-8")
