@@ -131,9 +131,8 @@ body{
 /* ── 본문 ── */
 main{
   flex:1 1 auto;min-width:0;padding:3.4rem 2.4rem 6rem;
-  display:flex;justify-content:center;
 }
-article{width:100%;max-width:var(--read)}
+article{width:100%;max-width:var(--read);margin:0 auto}
 
 .doctitle{
   font-size:clamp(1.5rem,1.15rem + 1.4vw,2rem);
@@ -162,6 +161,11 @@ article > h1{
 p{margin:.9rem 0}
 strong{font-weight:700;color:var(--ink)}
 em{font-style:normal;background:linear-gradient(transparent 62%,var(--accent-wash) 62%);padding:0 .1em}
+p.aside{
+  margin:1.3rem 0;padding:.8rem 1rem .8rem 1.05rem;
+  background:var(--paper-2);border-left:5px solid var(--accent-soft);border-radius:0 10px 10px 0;
+  color:var(--ink-soft);font-size:.95rem;
+}
 a{color:var(--accent);text-underline-offset:3px}
 hr{border:0;border-top:1px solid var(--line);margin:2.4rem 0}
 
@@ -190,6 +194,7 @@ tr:last-child td{border-bottom:0}
 thead th{background:var(--paper-3);font-weight:700;color:var(--ink);white-space:nowrap}
 tbody tr:nth-child(even){background:color-mix(in srgb,var(--paper-2) 55%,transparent)}
 th{white-space:nowrap}
+td:first-child{min-width:4.5em}
 
 /* 흐름도·도해 */
 pre{
@@ -212,7 +217,7 @@ li > ul,li > ol{margin:.35rem 0}
 /* 문서 넘기기 */
 .pager{
   display:flex;gap:.8rem;justify-content:space-between;align-items:stretch;
-  margin:4rem 0 0;padding-top:1.6rem;border-top:1px solid var(--line);
+  max-width:var(--read);margin:4rem auto 0;padding-top:1.6rem;border-top:1px solid var(--line);
 }
 .pager a{
   flex:1 1 0;min-width:0;text-decoration:none;color:var(--ink);

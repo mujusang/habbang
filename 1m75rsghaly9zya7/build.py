@@ -131,6 +131,9 @@ def build_doc(path: Path) -> dict:
     # 표 감싸기
     body = re.sub(r"<table>(.*?)</table>", r'<div class="tablewrap"><table>\1</table></div>', body, flags=re.S)
 
+    # 한 문단짜리 강조는 안내 상자로
+    body = re.sub(r"<p>\s*<em>(.*?)</em>\s*</p>", r'<p class="aside">\1</p>', body, flags=re.S)
+
     heads = []
     for m in HEAD_RE.finditer(body):
         lvl = int(m.group(1))
