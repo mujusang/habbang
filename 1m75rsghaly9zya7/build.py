@@ -34,7 +34,7 @@ SITE_TITLE = "중경방 임상강좌 각론"
 SITE_SUB = "1단계 완성본 · 2026.11.25"
 SITE_FOOT = "내부 학습용 정리본 — 링크를 받은 분만 열람"
 
-MD_EXT = ["tables", "fenced_code", "toc", "sane_lists", "attr_list", "md_in_html"]
+MD_EXT = ["tables", "fenced_code", "toc", "sane_lists", "attr_list", "md_in_html", "nl2br"]
 MD_EXT_CFG = {"toc": {"permalink": False, "toc_depth": "1-6"}}
 
 HEAD_RE = re.compile(r"<h([1-6])([^>]*)>(.*?)</h\1>", re.S)
@@ -158,6 +158,7 @@ def doc_href(i: int) -> str:
 
 def sidebar(docs: list[dict], cur: int) -> str:
     out = ['<aside id="sidebar">']
+    out.append('<button class="sbclose" id="sbClose" aria-label="목차 닫기">✕</button>')
     out.append(
         f'<div class="brand"><a href="{doc_href(0)}">{esc(SITE_TITLE)}</a>'
         f"<span>{esc(SITE_SUB)}</span></div>"

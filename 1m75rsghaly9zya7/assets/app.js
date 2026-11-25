@@ -15,6 +15,8 @@
     });
   }
   if (backdrop) backdrop.addEventListener('click', closeNav);
+  var sbClose = document.getElementById('sbClose');
+  if (sbClose) sbClose.addEventListener('click', closeNav);
   if (sidebar) {
     sidebar.addEventListener('click', function (e) {
       if (e.target.closest('a')) closeNav();
