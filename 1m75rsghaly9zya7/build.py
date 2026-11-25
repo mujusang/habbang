@@ -32,7 +32,7 @@ SRC = HERE / "src"
 MANIFEST = HERE / "docs.txt"
 
 SITE_TITLE = "중경방 임상강좌 각론"
-SITE_SUB = "총설·유방 체계본 · 2026.11.25"
+SITE_SUB = "총설·주요약제별 처방군 체계본 · 2026.11.25"
 SITE_FOOT = "내부 학습용 정리본 — 링크를 받은 분만 열람"
 
 MD_EXT = ["tables", "fenced_code", "toc", "sane_lists", "attr_list", "md_in_html", "nl2br"]
